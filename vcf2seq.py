@@ -9,6 +9,7 @@ import sys
 
 def generate_ambiguous_code(base1, base2):
     # 非纯和突变碱基的歧义码IUPAC Ambiguity Codes，类型没有vcf2phylip的多，但运行结果检查了一下和那个脚本是一样的，因为只考虑单碱基突变的话就只有下面这几种突变
+    # ref: https://www.bioinformatics.org/sms/iupac.html
     base1 = base1.upper()
     base2 = base2.upper()
     # 这里是获得的基因型，ATGC*.,"."是缺失的情况
