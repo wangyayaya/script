@@ -20,6 +20,8 @@ def generate_ambiguous_code(base1, base2):
             return "-"
         elif base1 == '*':
             return 'N'
+        else:
+            return 'N'
     elif base1 not in ["A", "T", "G", "C"] and base2 not in ["A", "T", "G", "C"]:
         return "N"
     elif {base1, base2} <= {"A", "C"}:
