@@ -37,13 +37,13 @@ def generate_ambiguous_code(base1, base2):
     elif {base1, base2} <= {"G", "T"}:
         return "K"
     elif {base1, base2} <= {"A", "*"}:
-        return "A"
+        return "a"
     elif {base1, base2} <= {"T", "*"}:
-        return "T"
+        return "t"
     elif {base1, base2} <= {"G", "*"}:
-        return "G"
+        return "g"
     elif {base1, base2} <= {"C", "*"}:
-        return "C"
+        return "c"
     else:
         return "N"
 
