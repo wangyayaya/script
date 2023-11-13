@@ -46,19 +46,19 @@ def parameters_get():
         sys.exit()
 
 
-if __name__ == "__main__":
-    parameters = {}
-    parameters_get()
-    if 'prefix' not in parameters:
-        print("Error: The prefix must be specified!")
-        sys.exit()
-    if 'gff' not in parameters:
-        print("Error: The gff file must be specified!")
-        sys.exit()
-    if 'type' not in parameters:
-        parameters['type'] = "gene"
-    if 'keyword' not in parameters:
-        parameters['keyword'] = "ID"
+
+parameters = {}
+parameters_get()
+if 'prefix' not in parameters:
+    print("Error: The prefix must be specified!")
+    sys.exit()
+if 'gff' not in parameters:
+    print("Error: The gff file must be specified!")
+    sys.exit()
+if 'type' not in parameters:
+    parameters['type'] = "gene"
+if 'keyword' not in parameters:
+    parameters['keyword'] = "ID"
 
 p = parameters['prefix']
 gff = parameters['gff']
@@ -85,14 +85,22 @@ for chr_id in chr_list:
     for line in file.readlines():
         if not line.startswith('#'):
             line = line.split()
-            if line[2] == extract_type and line[0] == chr_id:
-                gene_name = line[8].split(f'{keyword}=')[1].split(';')[0]
-                old_name = line[8].split(';')[1].split("=")[1]
-                start = eval(line[3])
-                end = eval(line[4])
-                gene_number += 1
-                strand = line[6]
-                if end > chr_len:
-                    chr_len = end
-                print(f'{chr_id}\t{gene_name}\t{start}\t{end}\t{strand}\t{gene_number}\t{old_name}', file=gff_file)
+            try:
+                if line[2] == extract_type and line[0] == chr_id:
+                    try:
+                        gene_name = line[8].split(f'{keyword}=')[1].split(';')[0]
+                        old_name = line[8].split(';')[1].split("=")[1]
+                    except IndexError:
+                        gene_name = line[8].split(f'{keyword}=')[1]
+                        old_name = line[8].split("=")[1]
+
+                    start = eval(line[3])
+                    end = eval(line[4])
+                    gene_number += 1
+                    strand = line[6]
+                    if end > chr_len:
+                        chr_len = end
+                    print(f'{chr_id}\t{gene_name}\t{start}\t{end}\t{strand}\t{gene_number}\t{old_name}', file=gff_file)
+            except IndexError:
+                pass
     print(f'{chr_id}\t{chr_len}\t{gene_number}', file=len_file)
